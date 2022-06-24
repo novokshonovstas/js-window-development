@@ -18,7 +18,7 @@ const modals = () => {
 
     close.addEventListener("click", (e) => {
       modal.style.display = "none";
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "";
         // bootstrap class
       // document.body.classList.remove('modal-open');
     });
@@ -26,6 +26,7 @@ const modals = () => {
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.style.display = "none";
+        document.body.style.overflow = "";
       }
     });
   }
