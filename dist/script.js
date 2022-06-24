@@ -14011,11 +14011,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
   console.clear();
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
 });
 
 /***/ }),
@@ -14062,14 +14066,63 @@ const modals = () => {
       document.querySelector(selector).style.display = "block";
       document.body.style.overflow = "hidden";
     }, time);
-  }
+  } // showModalByTime('.popup', 60000)
 
-  showModalByTime('.popup', 1000);
+
   bindModal(".popup_engineer_btn", ".popup_engineer", ".popup_engineer .popup_close");
   bindModal(".phone_link", ".popup", ".popup .popup_close");
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const tabs = (parentSelector, tabSelector, contentSelector, activeClass) => {
+  const parent = document.querySelector(parentSelector);
+  const tab = document.querySelectorAll(tabSelector);
+  const content = document.querySelectorAll(contentSelector);
+
+  function hideTabContent() {
+    content.forEach(tabContent => {
+      tabContent.style.display = 'none';
+    });
+    tab.forEach(currTab => {
+      currTab.classList.remove(activeClass);
+    });
+  }
+
+  function showTabContent() {
+    let i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    content[i].style.display = 'block';
+    tab[i].classList.add(activeClass);
+  }
+
+  hideTabContent();
+  showTabContent();
+  parent.addEventListener('click', e => {
+    const target = e.target;
+
+    if (target && target.classList.contains(tabSelector.slice(1)) || target.parentNode.classList.contains(tabSelector.slice(1))) {
+      tab.forEach((currTab, i) => {
+        if (currTab === target || currTab === target.parentNode) {
+          hideTabContent();
+          showTabContent(i);
+        }
+      });
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (tabs);
 
 /***/ }),
 
