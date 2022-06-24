@@ -18,6 +18,12 @@ body {
   color: red;
 }
 
+button, a {
+  cursor: pointer;
+}
+
+
+
 a:hover {
   text-decoration: none;
 }
@@ -1818,3 +1824,4 @@ textarea:focus {
     animation: none !important;
   }
 }
+
