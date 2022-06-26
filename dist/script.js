@@ -14012,15 +14012,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 /* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+
 
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.clear();
+  'use strict'; // console.clear();
+
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const forms = () => {
+  const form = document.querySelectorAll("form");
+  const inputs = document.querySelectorAll("input");
+  const message = {
+    loading: "Загрузка...",
+    success: "Спасибо! Скоро мы с вами свяжемся",
+    failure: "Что-то пошло не так..."
+  };
+
+  const postData = async (url, data) => {
+    document.querySelector('.status').textContent = message.loading;
+    let res = await fetch(url, {
+      method: 'POST',
+      body: data
+    });
+    return await res.text();
+  };
+
+  const clearInputs = () => {
+    inputs.forEach(item => {
+      item.value = '';
+    });
+  };
+
+  form.forEach(item => {
+    item.addEventListener("submit", e => {
+      e.preventDefault();
+      let statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      item.appendChild(statusMessage);
+      const formData = new FormData(item);
+      postData('assets/server.php', formData).then(res => {
+        console.log(res);
+        statusMessage.textContent = message.success;
+      }).catch(() => statusMessage.textContent = message.failure).finally(() => {
+        clearInputs();
+        setTimeout(() => {
+          statusMessage.remove();
+        }, 5000);
+      });
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),
 
@@ -14066,9 +14127,9 @@ const modals = () => {
       document.querySelector(selector).style.display = "block";
       document.body.style.overflow = "hidden";
     }, time);
-  } // showModalByTime('.popup', 60000)
+  }
 
-
+  showModalByTime('.popup', 60000);
   bindModal(".popup_engineer_btn", ".popup_engineer", ".popup_engineer .popup_close");
   bindModal(".phone_link", ".popup", ".popup .popup_close");
 };
@@ -14086,32 +14147,63 @@ const modals = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+// const tabs =  (parentSelector, tabSelector, contentSelector,  activeClass) => {
+// const parent = document.querySelector(parentSelector);
+// const tab = document.querySelectorAll(tabSelector);
+// const content = document.querySelectorAll(contentSelector);
+// function hideTabContent () {
+//     content.forEach(tabContent => {
+//         tabContent.style.display = 'none';
+//     })
+//     tab.forEach(currTab => {
+//         currTab.classList.remove(activeClass);
+//     })
+// }
+// function showTabContent (i = 0) {
+//     content[i].style.display = 'block';
+//     tab[i].classList.add(activeClass);
+// }
+// hideTabContent();
+// showTabContent();
+// parent.addEventListener('click', (e) => {
+// const target = e.target;
+// if(target && target.classList.contains(tabSelector.slice(1)) || target.parentNode.classList.contains(tabSelector.slice(1) )) {
+//     tab.forEach((currTab, i) => {
+//         if(currTab === target || currTab === target.parentNode) {
+//             hideTabContent();
+//             showTabContent(i);
+//         }
+//     })
+// }
+// })
+// }
+// export default tabs;
 const tabs = (parentSelector, tabSelector, contentSelector, activeClass) => {
   const parent = document.querySelector(parentSelector);
   const tab = document.querySelectorAll(tabSelector);
   const content = document.querySelectorAll(contentSelector);
 
   function hideTabContent() {
-    content.forEach(tabContent => {
-      tabContent.style.display = 'none';
+    content.forEach(item => {
+      item.style.display = "none";
     });
-    tab.forEach(currTab => {
-      currTab.classList.remove(activeClass);
+    tab.forEach(item => {
+      item.classList.remove(activeClass);
     });
   }
 
   function showTabContent() {
     let i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    content[i].style.display = 'block';
+    content[i].style.display = "block";
     tab[i].classList.add(activeClass);
   }
 
   hideTabContent();
   showTabContent();
-  parent.addEventListener('click', e => {
+  parent.addEventListener("click", e => {
     const target = e.target;
 
-    if (target && target.classList.contains(tabSelector.slice(1)) || target.parentNode.classList.contains(tabSelector.slice(1))) {
+    if (target && target.classList.contains(activeClass.slice(1)) || target.parentNode.classList.contains(tabSelector.slice(1))) {
       tab.forEach((currTab, i) => {
         if (currTab === target || currTab === target.parentNode) {
           hideTabContent();
