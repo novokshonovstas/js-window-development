@@ -907,7 +907,7 @@ textarea:focus {
 
 .popup_calc_content {
   position: fixed;
-  top: 2%;
+  top: 10%;
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);

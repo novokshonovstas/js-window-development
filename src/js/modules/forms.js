@@ -1,7 +1,13 @@
+import checkNumInputs from './checkNumInputs';
 
-const forms = () => {
+const forms = (state) => {
+
   const form = document.querySelectorAll("form");
   const inputs= document.querySelectorAll("input");
+  const modal = document.querySelector('.popup_engineer');
+  const lastModalCalc = document.querySelector('.popup_calc_end');
+  
+  checkNumInputs('input[name="user_phone"]');
 
   const message = {
     loading: "Загрузка...",
@@ -22,9 +28,10 @@ const forms = () => {
     const clearInputs = () => {
         inputs.forEach(item => {
             item.value = '';
-        })
-    }
+        });
+    };
 
+    
 
   form.forEach((item) => {
     item.addEventListener("submit", (e) => {
@@ -35,6 +42,12 @@ const forms = () => {
       item.appendChild(statusMessage);
 
       const formData = new FormData(item);
+      if(item.getAttribute('data-calc') === 'end') {
+        for (let key in state) {
+          formData.append(key, state[key]);
+        }
+      }
+
 
       postData('assets/server.php', formData)
       .then(res => {
@@ -46,11 +59,21 @@ const forms = () => {
         clearInputs();
         setTimeout(() => {
             statusMessage.remove();
-        }, 5000)
-      })
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 5000);
+        setTimeout(() => {
+            lastModalCalc.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 6000);
+        
+      });
 
     });
   });
+
+
 };
+
 
 export default forms;
