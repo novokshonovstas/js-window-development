@@ -1828,4 +1828,26 @@ textarea:focus {
 }
 
 
+.action {
+  text-align: center;
+}
+.action_end {
+  font-size: 15px;
+  color: red;
+  font-weight: 700;
+}
+
+
+.faded {
+  animation-name: faded;
+  animation-duration: 1.5s;
+}
+
+@keyframes faded {
+from {
+  opacity: 0.1;
+} to {
+  opacity: 1;
+}
+}
 

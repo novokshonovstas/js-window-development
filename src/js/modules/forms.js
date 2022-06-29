@@ -5,7 +5,6 @@ const forms = (state) => {
   const form = document.querySelectorAll("form");
   const inputs= document.querySelectorAll("input");
   const modal = document.querySelector('.popup_engineer');
-  const lastModalCalc = document.querySelector('.popup_calc_end');
   
   checkNumInputs('input[name="user_phone"]');
 
@@ -31,7 +30,11 @@ const forms = (state) => {
         });
     };
 
-    
+    const clearState = () => {
+      for(let prop of Object.keys(state)) {
+        delete state[prop];
+      }
+    };
 
   form.forEach((item) => {
     item.addEventListener("submit", (e) => {
@@ -61,11 +64,12 @@ const forms = (state) => {
             statusMessage.remove();
             modal.style.display = 'none';
             document.body.style.overflow = '';
-        }, 5000);
+        }, 4000);
         setTimeout(() => {
-            lastModalCalc.style.display = 'none';
+          document.querySelector('.popup_calc_end').style.display = 'none';
             document.body.style.overflow = '';
-        }, 6000);
+            clearState();
+        }, 5000);
         
       });
 

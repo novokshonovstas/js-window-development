@@ -13,26 +13,34 @@ import checkNumInputs from './checkNumInputs';
 function bindActionToElems(event, elem, prop) {
     elem.forEach((item, i) => {
         item.addEventListener(event, () =>{
-            switch(item.nodeName) {
-                case 'SPAN':
-                    state[prop] = i;
-                    break;
-                case 'INPUT':
-                    if(item.getAttribute('type') === 'checkbox') {
-                        i === 0 ? state[prop] = 'Холодное' : state[prop] = 'Теплое';
-                        elem.forEach((checkbox, j) => {
-                            checkbox.checked = false;
-                        if(i === j) {
-                            checkbox.checked = true; 
+
+                switch(item.nodeName) {
+                    case 'SPAN':
+                        state[prop] = i;
+                        break;
+                    case 'INPUT':
+                        if(item.getAttribute('type') === 'checkbox') {
+                            i === 0 ? state[prop] = 'Холодное' : state[prop] = 'Теплое';
+                            elem.forEach((checkbox, j) => {
+                                checkbox.checked = false;
+                            if(i === j) {
+                                checkbox.checked = true; 
+                            }
+                            });
+                        } else {
+                            state[prop] = item.value;
                         }
-                        });
-                    } else {
-                        state[prop] = item.value;
-                    }
-                    break;
-                case 'SELECT':
-                    state[prop] = item.value;  
-            }
+                        break;
+                    case 'SELECT':
+                        state[prop] = item.value;  
+                }
+                if(Object.keys(state).length >= 3) {
+                    document.querySelector('.popup_calc_button').removeAttribute('disabled');
+                }
+                if(Object.keys(state).length >= 5) {
+                    document.querySelector('.popup_calc_profile_but').removeAttribute('disabled');
+                }
+        
             console.log(state);
         });
     });
