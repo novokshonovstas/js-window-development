@@ -1,4 +1,5 @@
 import './slider';
+import './arrow-up';
 import modals from './modules/modal';
 import tabs from './modules/tabs';
 import forms from './modules/forms';
