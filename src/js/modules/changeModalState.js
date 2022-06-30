@@ -38,7 +38,7 @@ function bindActionToElems(event, elem, prop) {
                     document.querySelector('.popup_calc_button').removeAttribute('disabled');
                 }
                 if(Object.keys(state).length >= 5) {
-                    document.querySelector('.popup_calc_profile_but').removeAttribute('disabled');
+                    document.querySelector('.popup_calc_profile_button').removeAttribute('disabled');
                 }
         
             console.log(state);
